@@ -35,8 +35,6 @@ http:
 
       entryPoints:
         - web-secure
-      middlewares:
-        - csrf
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
@@ -50,13 +48,6 @@ http:
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
-
-  middlewares:
-    csrf:
-      # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
-      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-      headers:
-        hostsProxyHeaders: ["X-CSRFToken"]
 
   services:
     django:

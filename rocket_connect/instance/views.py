@@ -10,7 +10,6 @@ from django.db.models import Count, Max, Q
 from django.db.models.functions import TruncDay
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views.decorators.csrf import csrf_exempt
 from envelope.models import LiveChatRoom
 from instance.forms import NewConnectorForm, NewServerForm
 from instance.models import Connector, Server
@@ -18,7 +17,7 @@ from instance.models import Connector, Server
 from .forms import NewInboundForm
 
 
-@csrf_exempt
+
 def connector_endpoint(request, connector_id):
     connector = get_object_or_404(
         Connector, external_token=connector_id, enabled=True, server__enabled=True
@@ -27,7 +26,7 @@ def connector_endpoint(request, connector_id):
     return return_response
 
 
-@csrf_exempt
+
 def connector_inbound_endpoint(request, connector_id):
     connector = get_object_or_404(
         Connector, external_token=connector_id, enabled=True, server__enabled=True
@@ -57,7 +56,7 @@ def must_be_yours(func):
     return check_and_call
 
 
-@csrf_exempt
+
 def server_endpoint(request, server_id):
     server = get_object_or_404(Server, external_token=server_id, enabled=True)
     # default_messages check
@@ -131,14 +130,14 @@ def server_endpoint(request, server_id):
     return JsonResponse({})
 
 
-@csrf_exempt
+
 def server_messages_endpoint(request, server_id):
     server = get_object_or_404(Server, external_token=server_id, enabled=True)
     messages = server.get_custom_messages(term=request.GET.get("term"))
     return JsonResponse(list(messages), safe=False)
 
 
-@csrf_exempt
+
 def server_active_chat_endpoint(request, server_id):
     server = get_object_or_404(Server, external_token=server_id, enabled=True)
     if request.GET.get("term"):
